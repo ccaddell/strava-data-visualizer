@@ -16,10 +16,12 @@ TOKEN_URL = 'https://www.strava.com/oauth/token'
 @auth_bp.route('/login')
 def login():
     params = {
+        
         'client_id': CLIENT_ID,
         'response_type': 'code',
         'redirect_uri': REDIRECT_URI,
-        'scope': 'read_all'
+        'scope': 'read,activity:read,activity:read_all',
+        'approval_prompt': 'force'
     }
     return redirect(f"{AUTH_URL}?{requests.compat.urlencode(params)}")
 

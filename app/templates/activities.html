@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Strava Activities</title>
+</head>
+<body>
+    <h1>Strava Activities</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Distance (m)</th>
+                <th>Moving Time (s)</th>
+                <th>Date</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for activity in activities %}
+            <tr>
+                <td>{{ activity.name }}</td>
+                <td>{{ activity.distance }}</td>
+                <td>{{ activity.moving_time }}</td>
+                <td>{{ activity.start_date_local }}</td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html>
