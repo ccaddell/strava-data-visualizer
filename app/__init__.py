@@ -17,7 +17,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
-        from .models import User
+        from .models import User, Activity
         db.create_all()
 
     from .routes.home import home_bp

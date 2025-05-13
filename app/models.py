@@ -11,3 +11,13 @@ class User(db.Model):
 
     def __repr__(self):
         return f"<User {self.name}>"
+
+class Activity(db.Model):
+    id = db.Column(db.BigInteger, primary_key=True)  # Strava activity ID
+    name = db.Column(db.String(256))
+    distance = db.Column(db.Float)
+    moving_time = db.Column(db.Integer)
+    start_date = db.Column(db.String(64))
+
+    def __repr__(self):
+        return f"<Activity {self.name}>"
