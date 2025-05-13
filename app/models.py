@@ -9,11 +9,15 @@ class User(db.Model):
     refresh_token = db.Column(db.String(255))
     expires_at = db.Column(db.Integer)
 
+    activities = db.relationship('Activity', backref='owner', lazy=True)
+
     def __repr__(self):
         return f"<User {self.name}>"
 
 class Activity(db.Model):
     id = db.Column(db.BigInteger, primary_key=True)  # Strava activity ID
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
     name = db.Column(db.String(256))
     distance = db.Column(db.Float)
     moving_time = db.Column(db.Integer)
