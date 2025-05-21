@@ -8,6 +8,7 @@ class User(db.Model):
     access_token = db.Column(db.String(255))
     refresh_token = db.Column(db.String(255))
     expires_at = db.Column(db.Integer)
+    last_synced = db.Column(db.DateTime)
 
     activities = db.relationship('Activity', backref='owner', lazy=True)
 
