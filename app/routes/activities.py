@@ -4,6 +4,7 @@ from datetime import datetime
 from flask import Blueprint, render_template, session, redirect, url_for
 from app.models import Activity, User
 from app.db import db
+from app.utils.strava_auth import refresh_strava_token
 
 activities_bp = Blueprint('activities', __name__)
 
@@ -26,7 +27,15 @@ def activities():
     after_timestamp = 0
     if user.last_synced:
         after_timestamp = int(user.last_synced.timestamp())
-    
+
+    if user.expires_at and user.expires_at < int(datetime.now(datetime.timezone.utc).timestamp()):
+        new_token = refresh_strava_token(user)
+        if not new_token:
+            return redirect(url_for('auth.login'))  # fallback
+        access_token = new_token
+    else:
+        access_token = session.get('access_token')
+
     all_activities = []
     page = 1
     while True:
