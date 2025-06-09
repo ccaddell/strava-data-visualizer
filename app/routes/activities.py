@@ -17,12 +17,7 @@ def activities():
     
     user = User.query.filter_by(strava_id=session.get('strava_id')).first()
     if not user:
-        return redirect(url_for('auth.login')) 
-    
-    access_token = session.get('access_token')
-    if not access_token:
-        return redirect(url_for('auth.login')
-                        )
+        return redirect(url_for('auth.login'))
 
     after_timestamp = 0
     if user.last_synced:
@@ -35,6 +30,9 @@ def activities():
         access_token = new_token
     else:
         access_token = session.get('access_token')
+
+    if not access_token:
+        return redirect(url_for('auth.login'))
 
     all_activities = []
     page = 1
@@ -77,9 +75,9 @@ def activities():
                 'start_date': item['start_date'],
             })
 
-    page += 1
+        page += 1
 
     user.last_synced = datetime.now(datetime.timezone.utc)
     db.session.commit()
 
-    return render_template('activities.html', activities=activities)
+    return render_template('activities.html', activities=all_activities)
